@@ -1,0 +1,64 @@
+<button (click)="showReactiveForm=!showReactiveForm">{{showReactiveForm ? 'show template form' : 'show reactive form'}}</button>
+<form *ngIf="showReactiveForm" class="form-container" [formGroup]="signUpFormReact" (ngSubmit)="showData()">
+    <div class="m-1">
+        <label>Enter Name : </label>
+        <input class="m-1" formControlName="name" />
+        <p class="error" *ngIf="!signUpFormReact.get('name')?.valid || signUpFormReact.get('name')?.pristine">Name is required</p>
+        <p class="error" *ngIf="!signUpFormReact.get('name')?.valid && signUpFormReact.get('name')?.errors" [innerText]="signUpFormReact.get('name')?.errors ? 'minimum length is 3' : 'no space should be there'">
+        </p>
+    </div>
+    <div class="m-1">
+        <label>Occupation : </label>
+        <select formControlName="occupation">
+            <option>Student</option>
+            <option>Employee</option>
+            <option>Organization</option>
+            <option>Entrepreneur</option>
+        </select>
+    </div>
+    <div class="m-1">
+        <label>Enter Password : </label>
+        <input class="m-1" formControlName="password" />
+        <p class="error" *ngIf="!signUpFormReact.get('password')?.valid || signUpFormReact.get('password')?.pristine">Password is required</p>
+    </div>
+    <div class="m-1">
+        <label>Confirm Password : </label>
+        <input class="m-1" formControlName="confirmPassword" />
+        <p class="error" *ngIf="!signUpFormReact.get('confirmPassword')?.valid || signUpFormReact.get('confirmPassword')?.pristine">Confirm Password is required</p>
+    </div>
+    <button [disabled]="!signUpFormReact.valid" class="m-1" type="submit">Submit</button>
+</form>
+<ng-container *ngIf="showFormData">
+    <div>{{showReactiveForm ? displayingData.name : name}}</div>
+    <div>{{showReactiveForm ? displayingData.occupation : occupation}}</div>
+    <div>{{showReactiveForm ? displayingData.password : password}}</div>
+    <div>{{showReactiveForm ? displayingData.confirmPassword : confirmPassword}}</div>
+</ng-container>
+
+<form *ngIf="!showReactiveForm" (ngSubmit)="showTemplateData()" #templateForm="ngForm">
+    <div class="m-1">
+        <label for="name">Enter Name : </label>
+        <input name="name" class="m-1" [(ngModel)]="name" #name1="ngModel" required/>
+        <p class="error" *ngIf="!name1.valid || name1.pristine">Name is required</p>
+    </div>
+    <div class="m-1">
+        <label for="occupation">Occupation : </label>
+        <select name="occupation" [(ngModel)]="occupation">
+            <option>Student</option>
+            <option>Employee</option>
+            <option>Organization</option>
+            <option>Entrepreneur</option>
+        </select>
+    </div>
+    <div class="m-1">
+        <label for="password">Enter Password : </label>
+        <input name="password" class="m-1" [(ngModel)]="password" #password1="ngModel" required/>
+        <p class="error" *ngIf="!password1.valid || password1.pristine">password is required</p>
+    </div>
+    <div class="m-1">
+        <label for="cnfrmPwd">Confirm Password : </label>
+        <input name="cnfrmPwd" class="m-1" [(ngModel)]="confirmPassword" #confirmPassword1="ngModel" />
+        <p class="error" *ngIf="!confirmPassword1.valid || confirmPassword1.pristine">confirmPassword is required</p>
+    </div>
+    <button [disabled]="!templateForm.valid" class="m-1" type="submit">Submit</button>
+</form>
